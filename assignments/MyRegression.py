@@ -30,4 +30,3 @@ class MyRegression():
         
 if __name__=="__main__":
     clf = MyRegression()
-
