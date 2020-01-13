@@ -16,8 +16,7 @@ class MyRegression():
         self.lam = lam
         
     def fit(self, X, y):
-        X = check_X_y(X, y, y_numeric=True)
-        y = check_X_y(X, y, y_numeric=True)
+        X, y = check_X_y(X, y, y_numeric=True)
         
         if self.lam != 0:
             pass
