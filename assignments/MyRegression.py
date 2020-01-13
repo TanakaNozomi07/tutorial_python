@@ -35,6 +35,17 @@ class MyRegression():
         self.b_ =  w[0] #カラム数２以上のデータが扱えない。データを減らすかこの書き方を変える？
         return self
         
+    def score(self, X, y):
+        return 1
+    
+    def get_params(self, deep=True):
+        return {'a': self.a, 'b': self.b}
+
+    def set_params(self, **parameters):
+        for parameter, value in parameters.items():
+            setattr(self,parameter, value)
+        return self
+        
     def predict(self, X):
         X = check_array(X)
         y = np.dot(X, self.a_)+self.b_
