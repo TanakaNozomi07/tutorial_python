@@ -1,12 +1,13 @@
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_X_y, check_is_fitted, check_array
+import matplotlib.pyplot as plt
 
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_X_y, check_is_fitted, check_array
-a = pd.read_csv("../text/data/X_train.csv", sep=",")
-b = pd.read_csv("../text/data/y_train.csv", sep=",")
+a = pd.read_csv("tutorial_python/text/data/X_train.csv", sep=",")
+b = pd.read_csv("tutorial_python/text/data/y_train.csv", sep=",")
 
 class MyRegression():
     def __init__(self,lam = 0,a=None,b=None):
@@ -25,13 +26,13 @@ class MyRegression():
         
         one = np.ones(X.shape[0]).reshape(-1,1)
         X_ = np.concatenate((one,X),axis=1)
-        Lam = self.lam * np.eye(X_.shape[0])
+        Lam = self.lam * np.eye(X_.shape[1])
         A = Lam + np.dot(X_.T,X_)
-        X_daggar =np.dot(np.linalg.inv(A),X_.T)
-        w =np.dot(X_daggar.y)
+        X_daggar = np.dot(np.linalg.inv(A),X_.T)
+        w = np.dot(X_daggar,y)
         
         self.a_ =  w[1:]
-        self.b_ =  w[0] #カラム数２以上のデータが扱えない。データを減らすかこの書き方を変える？
+        self.b_ =  w[0] #a(スカラー)X(行列) = y(ベクトル) の意。カラム数２以上のデータが扱えない。データを減らすかこの書き方を変えるべし。
         return self
         
     def score(self, X, y):
@@ -55,7 +56,7 @@ class MyRegression():
         
 if __name__=="__main__":
     clf = MyRegression()
-    
+
 a["最多風向"][a["最多風向"] == "北北東"] = 0.125
 a["最多風向"][a["最多風向"] == "北東"] = 0.25
 a["最多風向"][a["最多風向"] == "東北東"] = 0.375
@@ -73,7 +74,7 @@ a["最多風向"][a["最多風向"] == "南西"] = 0.75
 a["最多風向"][a["最多風向"] == "南南西"] = 0.875
 a["最多風向"][a["最多風向"] == "南"] = 1
 
-X = a.values
+X = a[["最高気温"]].values
 T = b.values
 
 X_train = X[:13]
